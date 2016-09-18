@@ -1,9 +1,44 @@
-.PHONY: bb ccgx clean fetch fetch-all fetch-install install update-repos.conf sdk venus-image venus-images $(addsuffix bb-,$(MACHINES)) $(addsuffix -venus-image,$(MACHINES))
+.PHONY: bb ccgx clean fetch fetch-all fetch-install help install update-repos.conf sdk venus-image venus-images $(addsuffix bb-,$(MACHINES)) $(addsuffix -venus-image,$(MACHINES))
 
 SHELL = bash
 CONFIG ?= danny
 
 -include conf/machines
+
+help:
+	@echo "usage:"
+	@echo
+	@echo "Setup"
+	@echo "  make prereq"
+	@echo "   - Installs required host packages for Debian based distro's."
+	@echo ""
+	@echo "Checking out:"
+	@echo "  make CONFIG='jethro' fetch"
+	@echo "   - Downloads public available repositories needed to build for jethro."
+	@echo "  make CONFIG='jethro' fetch-all"
+	@echo "   - Downloads all repositories needed to build for jethro, needs victron git access."
+	@echo
+	@echo "Building:"
+	@echo "  make beaglebone-venus-image"
+	@echo "   - Build an image for the beaglebone. beaglebone can be substituted by another supported machine."
+	@echo "  make venus-images"
+	@echo "   - Build images for all MACHINES supported for this checkout."
+	@echo ""
+	@echo "Problem resolving:"
+	@echo "  make beaglebone-bb"
+	@echo "    - Drops you to a shell with oe script being sourced and MACHINE set."
+	@echo "  make clean"
+	@echo "    - Throw away the tmp dir, including sstate."
+	@echo
+	@echo "Checking in:"
+	@echo "  make update-repos.conf"
+	@echo "    - Updates repos.conf to the checked out git branches. It is still needs to be committed to git though."
+	@echo
+	@echo "Internals / needed when modifying whitelist etc:"
+	@echo "  make build/conf/bblayers.conf"
+	@echo "    - Creates the bblayers.conf by looking at the repositories being checkout in sources"
+	@echo "      and being in metas.whitelist, if it doesn't exist. Just remove the mentioned file if"
+	@echo "      you want to update it forcefully, it will be regenerated."
 
 build/conf/bblayers.conf:
 	@echo 'LCONF_VERSION = "6"' > build/conf/bblayers.conf
