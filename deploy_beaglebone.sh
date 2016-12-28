@@ -22,10 +22,10 @@ echo "* Starting the update..."
 # offline update scans the /media folder for usb and other media: first symlink and then run it
 ssh root@$1 'ln -sf /scratch/swu-tmp /media/scratch-swu-tmp && /opt/victronenergy/swupdate-scripts/check-updates.sh -offline -force -update'
 
-echo "* As you'll probably want to login with ssh, lets wait a few seconds, and then do that:"
+echo "* As you'll probably want to login with ssh, lets wait 10 seconds, and then do that:"
 
 # prevent connecting before device started its shutdown
-sleep 3
+sleep 10
 
 retries=0
 repeat=true
